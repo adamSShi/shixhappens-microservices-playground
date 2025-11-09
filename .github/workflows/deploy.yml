@@ -1,0 +1,30 @@
+name: Deploy to EC2
+
+on:
+  push:
+    branches:
+      - main            # 指定觸發部署的分支，可改成你想要的
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout repo
+        uses: actions/checkout@v4
+
+      - name: Setup SSH
+        run: |
+          mkdir -p ~/.ssh
+          echo "${{ secrets.EC2_KEY }}" > ~/.ssh/deploy_key.pem
+          chmod 600 ~/.ssh/deploy_key.pem
+          cat >>~/.ssh/config <<'EOF'
+          Host ec2-deploy
+            HostName ${{ secrets.EC2_HOST }}
+            User ${{ secrets.EC2_USER }}
+            IdentityFile ~/.ssh/deploy_key.pem
+            StrictHostKeyChecking no
+          EOF
+
+      - name: Run deploy script on EC2
+        run: ssh ec2-deploy '/opt/microservices/shixHappens-microservices-playground/deploy.sh'
