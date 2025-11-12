@@ -132,7 +132,6 @@ GitHub Actions 是 GitHub 內建的 CI/CD 平台，可設定事件觸發、Runne
 ├── scripts/              # 工具腳本（含 deploy.sh）
 ├── docker-compose.dev.yml # Docker Compose 配置
 └── package.json          # 根目錄 package.json (npm workspaces)
-可以再幫我生webSite、gateway跟每個service下都有docker file嗎?
 ```
 
 ## 🚀 快速開始
